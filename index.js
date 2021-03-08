@@ -1,6 +1,9 @@
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 app.use(express.json());
+
+app.use(morgan('tiny'));
 
 let persons = [
   {
@@ -28,7 +31,7 @@ let persons = [
 function getRandomId(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 app.get('/info', (request, response) => {
