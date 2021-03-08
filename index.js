@@ -25,6 +25,12 @@ let persons = [
   }
 ]
 
+function getRandomId(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
 app.get('/info', (request, response) => {
   response.send(
     `<p>Phonebook has info for ${persons.length} people</p>
@@ -46,6 +52,26 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end();
   }
+})
+
+app.post('/api/persons', (request, response) => {
+  const body = request.body;
+
+  if (!body.name && !body.number) {
+    return response.status(400).json({
+      error: 'content missing'
+    })
+  }
+
+  const person = {
+    "id": getRandomId(1, 100000000),
+    "name": body.name,
+    "number": body.number
+  }
+
+  persons = persons.concat(person);
+
+  response.json(person);
 })
 
 app.delete('/api/persons/:id', (request, response) => {
