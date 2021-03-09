@@ -2,6 +2,7 @@
 
 *.code-workspace
 .env
+/phonebook
 
 # dependencies
 **node_modules
