@@ -1,1 +1,1 @@
-DELETE http://localhost:3001/api/persons/3
+DELETE https://shielded-anchorage-90848.herokuapp.com/api/persons/2
