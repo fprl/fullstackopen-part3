@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const password = process.argv[2];
 const dbName = 'phonebook-app';
+
 const firstName = process.argv[3];
 const phoneNumber = Number(process.argv[4]);
 
@@ -37,7 +38,6 @@ const createPerson = () => {
     firstName: firstName,
     phoneNumber: phoneNumber
   })
-  console.log(person);
   
   person
     .save().then(result => {
