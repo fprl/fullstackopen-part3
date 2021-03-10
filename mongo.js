@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const password = process.argv[2];
 const dbName = 'phonebook-app';
@@ -9,7 +10,7 @@ const phoneNumber = Number(process.argv[4]);
 const url = `mongodb+srv://fullstack:${password}@cluster0.cd0q0.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 // Schemas
-const personSchema = new mongoose.Schema({
+const personSchema = new Schema({
   firstName: String,
   phoneNumber: Number,
 })
@@ -22,11 +23,13 @@ const Person = mongoose.model('Person', personSchema);
 const getPersons = () => {
   mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
 
-  Person.find({}).then(result => {
-    result.forEach(person => {
-      console.log(person)
-    })
-    mongoose.connection.close()
+  Person.find({})
+    .then(result => {
+      console.log('phonebook:');
+      result.forEach(person => {
+        console.log(person.firstName, person.phoneNumber)
+      })
+      mongoose.connection.close()
   })
 
 }
