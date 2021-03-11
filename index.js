@@ -36,11 +36,11 @@ let persons = [
   }
 ]
 
-function getRandomId(min, max) {
+/* function getRandomId(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min);
-}
+} */
 
 app.get('/info', (request, response) => {
   response.send(
