@@ -36,12 +36,6 @@ let persons = [
   }
 ]
 
-/* function getRandomId(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-} */
-
 app.get('/info', (request, response) => {
   response.send(
     `<p>Phonebook has info for ${persons.length} people</p>
@@ -56,22 +50,18 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-  const id = Number(request.params.id);
-  const person = persons.find(p => p.id === id);
-
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
-  }
+  Person.findById(request.params.id)
+    .then(person => response.json(person))
+    .catch(error => response.status(404).end())
 })
 
 app.post('/api/persons', (request, response) => {
   const body = request.body;
-  const personExist = persons.find(p => p.name === body.name)
 
+/*   const personExist = Person.findOne({firstName: body.firstName})
+    .then(person => console.log(person, 'Sorry but name must be unique!'))
 
-  if (!body.name || !body.number) {
+  if (!body.firstName || !body.phoneNumber) {
     return response.status(400).json({
       error: 'content missing'
     })
@@ -79,17 +69,15 @@ app.post('/api/persons', (request, response) => {
     return response.status(400).json({
       error: 'name must be unique'
     })
-  }
+  } */
 
-  const person = {
-    "id": getRandomId(1, 100000000),
-    "name": body.name,
-    "number": body.number
-  }
+  const person = new Person ({
+    "firstName": body.firstName,
+    "phoneNumber": body.phoneNumber
+  })
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  person.save()
+    .then(savedPerson => response.json(savedPerson))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
