@@ -78,19 +78,6 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.post('/api/persons', (request, response) => {
   const body = request.body;
 
-/*   const personExist = Person.findOne({firstName: body.firstName})
-    .then(person => console.log(person, 'Sorry but name must be unique!'))
-
-  if (!body.firstName || !body.phoneNumber) {
-    return response.status(400).json({
-      error: 'content missing'
-    })
-  } else if (personExist) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  } */
-
   const person = new Person ({
     "firstName": body.firstName,
     "phoneNumber": body.phoneNumber
@@ -98,6 +85,19 @@ app.post('/api/persons', (request, response) => {
 
   person.save()
     .then(savedPerson => response.json(savedPerson))
+})
+
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body;
+
+  const person = {
+    firstName: body.firstName,
+    phoneNumber: body.phoneNumber
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    .then(updatedPerson => response.json(updatedPerson))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {

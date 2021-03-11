@@ -10,17 +10,16 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
 
     const personObject = {
       firstName: newName,
-      phoneNumber: newPhone,
+      phoneNumber: parseInt(newPhone),
     }
-
     const personExist = persons.find(person => person.firstName.toLowerCase() === personObject.firstName.toLowerCase());
-    const numberExist = persons.find(person => person.phoneNumber === personObject.phoneNumber)
+    const numberExist = persons.find(person => person.phoneNumber === personObject.phoneNumber);
 
     if (personExist && numberExist) {
-      alert(`${personExist.name} is already added to phonebook`);
+      alert(`${personExist.firstName} is already added to phonebook`);
       return;
-    } else if (personExist && !numberExist) {
-      const result = window.confirm(`${personExist.name} is already added to phonebook, replace the old number with a new one?`);
+    } else if (personExist && numberExist === undefined) {
+      const result = window.confirm(`${personExist.firstName} is already added to phonebook, replace the old number with a new one?`);
       if (result) {
         phonesService
           .updatePerson(personExist.id, personObject)
@@ -42,10 +41,10 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
   return (
     <form onSubmit={addPerson}>
     <div>
-      name: <input type="text" value={newName} onChange={e => setNewName(e.target.value)} />
+      name: <input type="text" required value={newName} onChange={e => setNewName(e.target.value)} />
     </div>
     <div>
-      number: <input type="tel" value={newPhone} onChange={e => setNewPhone(e.target.value)} />
+      number: <input type="tel" required value={newPhone} onChange={e => setNewPhone(e.target.value)} />
     </div>
     <button type="submit">add</button>
   </form>

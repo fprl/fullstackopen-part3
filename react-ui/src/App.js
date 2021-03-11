@@ -32,7 +32,7 @@ const App = () => {
 
   const personsToShow = showAll === ''
     ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(showAll.toLowerCase()))
+    : persons.filter(person => person.firstName.toLowerCase().includes(showAll.toLowerCase()))
 
   return (
     <div>

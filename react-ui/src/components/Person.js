@@ -4,14 +4,14 @@ import phonesService from '../services/phones';
 const Person = ({ person, setNewRequest, handleNotification }) => {
 
   const handleClickDelete = (id) => {
-    const result = window.confirm(`Delete ${person.name}?`);
+    const result = window.confirm(`Delete ${person.firstName}?`);
     if (result) {
       phonesService
         .deletePerson(id)
-        .catch(error => handleNotification('error', person.name))
+        .catch(error => handleNotification('error', person.firstNameame))
         .then(() => setNewRequest(new Date()))
       setNewRequest(new Date());
-      handleNotification('remove', person.name);
+      handleNotification('remove', person.firstName);
     }
   }
 
