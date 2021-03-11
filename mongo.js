@@ -6,6 +6,9 @@ const url = process.env.MONGODB_URI;
 const firstName = process.argv[2];
 const phoneNumber = Number(process.argv[3]);
 
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+  .then(result => console.log('connected to MongoDB'))
+  .catch(error => console.log('error connecting to MongoDB', error.message))
 
 // Schemas
 const personSchema = new Schema({
@@ -16,7 +19,6 @@ const personSchema = new Schema({
 // Model
 const Person = mongoose.model('Person', personSchema);
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
 
 // Functions
 const getPersons = () => {
