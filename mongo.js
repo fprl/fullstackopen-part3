@@ -1,13 +1,11 @@
+require('dotenv').config()
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const password = process.argv[2];
-const dbName = 'phonebook-app';
+const url = process.env.MONGODB_URI;
+const firstName = process.argv[2];
+const phoneNumber = Number(process.argv[3]);
 
-const firstName = process.argv[3];
-const phoneNumber = Number(process.argv[4]);
-
-const url = `mongodb+srv://fullstack:${password}@cluster0.cd0q0.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 // Schemas
 const personSchema = new Schema({
@@ -18,11 +16,10 @@ const personSchema = new Schema({
 // Model
 const Person = mongoose.model('Person', personSchema);
 
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
 
 // Functions
 const getPersons = () => {
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
-
   Person.find({})
     .then(result => {
       console.log('phonebook:');
@@ -35,8 +32,6 @@ const getPersons = () => {
 }
 
 const createPerson = () => {
-  mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-  
   const person = new Person({
     firstName: firstName,
     phoneNumber: phoneNumber
@@ -51,10 +46,10 @@ const createPerson = () => {
     .catch(error => console.log(error));
 }
 
-if (process.argv.length === 3) {
+if (process.argv.length === 2) {
   getPersons();
 }
 
-if (process.argv.length === 5) {
+if (process.argv.length === 4) {
   createPerson();
 }
