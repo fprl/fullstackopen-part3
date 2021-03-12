@@ -26,7 +26,7 @@ const App = () => {
         : `${action} ${person}`;
 
     const newNotification = {text, action};
-    setNotificationMessage(Object.assign(notificationMessage, newNotification));
+    setNotificationMessage({...notificationMessage, ...newNotification})
     setTimeout(() => setNotificationMessage(Object.assign({text: null, action: null})), 5000);
   }
 

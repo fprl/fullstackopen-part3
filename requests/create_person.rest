@@ -13,6 +13,6 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-  "firstName": "Bianca Perotti",
-  "phoneNumber": "633528238"
+  "firstName": "Juan Rodriguez",
+  "phoneNumber": "123456789"
 }

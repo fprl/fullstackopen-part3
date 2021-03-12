@@ -13,28 +13,37 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
       phoneNumber: parseInt(newPhone),
     }
     const personExist = persons.find(person => person.firstName.toLowerCase() === personObject.firstName.toLowerCase());
-    const numberExist = persons.find(person => person.phoneNumber === personObject.phoneNumber);
+    const numberExist = 
+      personExist
+      ? Object.values(personExist).includes(personObject.phoneNumber)
+      : undefined;
 
     if (personExist && numberExist) {
       alert(`${personExist.firstName} is already added to phonebook`);
       return;
-    } else if (personExist && numberExist === undefined) {
+    } else if (personExist && !numberExist) {
       const result = window.confirm(`${personExist.firstName} is already added to phonebook, replace the old number with a new one?`);
       if (result) {
-        phonesService
-          .updatePerson(personExist.id, personObject)
-        setNewRequest(new Date());
-        handleNotification('update', personExist.firstName)
-        setNewName('');
-        setNewPhone('');
+        phonesService.updatePerson(personExist.id, personObject)
+          .then(updatedPerson => {
+            setNewRequest(new Date());
+            handleNotification('update', updatedPerson.firstName)
+            setNewName('');
+            setNewPhone('');
+          })
       }
     } else {
-      phonesService
-        .create(personObject)
-      setNewRequest(new Date());
-      handleNotification('add', personObject.firstName)
-      setNewName('');
-      setNewPhone('');
+      phonesService.create(personObject)
+        .then(createdPerson => {
+          handleNotification('add', createdPerson.firstName);
+          setNewName('');
+          setNewPhone('');
+          setNewRequest(new Date());
+        })
+        .catch(error => {
+          const errorToDisplay = error.response.data.error;
+          handleNotification('error', errorToDisplay);
+        })
     }
   };
 

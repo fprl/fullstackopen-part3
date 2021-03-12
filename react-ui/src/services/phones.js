@@ -18,7 +18,7 @@ const deletePerson = id => {
 
 const updatePerson = (id, updatedObject) => {
   const request = axios.put(`${BASE_URL}/${id}`, updatedObject)
-  return request;
+  return request.then(response => response.data);
 }
 
 const phonesService = {getAll, create, deletePerson, updatePerson};

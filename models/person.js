@@ -9,15 +9,24 @@ console.log('connecting to', url)
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(result => console.log('connected to MongoDB'))
   .catch(error => console.log('error connecting to MongoDB', error.message))
-  
+
+
 // Schemas
 const personSchema = new Schema({
   firstName: {
     type: String,
+    minLength: 3,
     required: true,
-    unique: true
+    unique: true,
+    uniqueCaseInsensitive: true
   },
-  phoneNumber: Number,
+  phoneNumber: {
+    type: Number,
+    validate: {
+      validator: val => val.toString().length >= 8,
+      message: props => `Phone number must have at least 8 digits, you entered ${props.value} which only has ${props.value.toString().length} digits`
+    }
+  }
 })
 
 personSchema.set('toJSON', {
