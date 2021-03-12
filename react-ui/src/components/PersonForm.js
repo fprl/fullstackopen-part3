@@ -31,6 +31,7 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
             setNewName('');
             setNewPhone('');
           })
+          .catch(error => handleNotification('validation-error', error.response.data.error))
       }
     } else {
       phonesService.create(personObject)
@@ -40,10 +41,7 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
           setNewPhone('');
           setNewRequest(new Date());
         })
-        .catch(error => {
-          const errorToDisplay = error.response.data.error;
-          handleNotification('validation-error', errorToDisplay);
-        })
+        .catch(error => handleNotification('validation-error', error.response.data.error))
     }
   };
 
