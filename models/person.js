@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+var uniqueValidator = require('mongoose-unique-validator');
 
 const url = process.env.MONGODB_URI;
 
@@ -11,7 +12,11 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
   
 // Schemas
 const personSchema = new Schema({
-  firstName: String,
+  firstName: {
+    type: String,
+    required: true,
+    unique: true
+  },
   phoneNumber: Number,
 })
 
@@ -22,6 +27,8 @@ personSchema.set('toJSON', {
     delete returnedObject.__v;
   }
 })
+
+personSchema.plugin(uniqueValidator);
 
 // Model
 module.exports = mongoose.model('Person', personSchema);
