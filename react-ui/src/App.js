@@ -19,11 +19,14 @@ const App = () => {
 
   useEffect(hookPersons, [newRequest]);
 
-  const handleNotification = (action, person) => {
+  const handleNotification = (action, message) => {
+
     const text = 
       action === 'error'
-        ? `Information of ${person} has already been removed from server`
-        : `${action} ${person}`;
+        ? `Information of ${message} has already been removed from server`
+        : action === 'validation-error'
+        ? message
+        : `${action} ${message}`;
 
     const newNotification = {text, action};
     setNotificationMessage({...notificationMessage, ...newNotification})

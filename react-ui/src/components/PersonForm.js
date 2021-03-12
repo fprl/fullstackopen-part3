@@ -42,7 +42,7 @@ const PersonForm = ({persons, setNewRequest, handleNotification}) => {
         })
         .catch(error => {
           const errorToDisplay = error.response.data.error;
-          handleNotification('error', errorToDisplay);
+          handleNotification('validation-error', errorToDisplay);
         })
     }
   };

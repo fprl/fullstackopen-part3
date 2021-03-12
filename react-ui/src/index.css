@@ -26,6 +26,13 @@
   background-color: red;
 }
 
+.validation-error {
+  font-size: 2rem;
+  color: white;
+  border: 1px solid red;
+  background-color: red;
+}
+
 .none {
   display: none;
 }
